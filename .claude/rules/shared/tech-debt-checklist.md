@@ -1,0 +1,1 @@
+../../../../shared-claude-code/rules/tech-debt-checklist.md

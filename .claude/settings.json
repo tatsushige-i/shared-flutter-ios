@@ -1,0 +1,76 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$TOOL_INPUT\" | grep -qE 'push\\s+(-f|--force)'; then echo 'BLOCK: force pushは禁止されています' >&2; exit 2; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$TOOL_INPUT\" | grep -qE 'git\\s+add.*\\.env'; then echo 'BLOCK: .envファイルのステージングは禁止されています' >&2; exit 2; fi"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "REPO=$(basename $(git rev-parse --show-toplevel 2>/dev/null || pwd)); osascript -e \"display notification \\\"$REPO が承認を待っています\\\" with title \\\"Claude Code\\\"\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo \"$TOOL_INPUT\" | jq -r '.file_path // empty'); if [ -z \"$FILE\" ] || [ ! -f \"$FILE\" ]; then exit 0; fi; if [ -f package.json ] && command -v npx >/dev/null 2>&1; then npx --no-install prettier --write \"$FILE\" 2>/dev/null || npx --no-install @biomejs/biome format --write \"$FILE\" 2>/dev/null || true; fi"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "BRANCH=$(git branch --show-current 2>/dev/null); STATUS=$(git status --short 2>/dev/null | head -20); if [ -n \"$BRANCH\" ]; then echo \"# Git Context\"; echo \"Branch: $BRANCH\"; if [ -n \"$STATUS\" ]; then echo \"Uncommitted changes:\"; echo \"$STATUS\"; else echo \"Working tree: clean\"; fi; fi"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "REPO=$(basename $(git rev-parse --show-toplevel 2>/dev/null || pwd)); osascript -e \"display notification \\\"$REPO の作業が完了しました\\\" with title \\\"Claude Code\\\"\""
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "REPO=$(git rev-parse --show-toplevel 2>/dev/null || pwd); BRANCH=$(git branch --show-current 2>/dev/null); STATUS=$(git status --short 2>/dev/null | head -20); TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S'); { echo \"# Pre-Compact Summary\"; echo \"\"; echo \"Timestamp: $TIMESTAMP\"; echo \"\"; echo \"## Git State\"; echo \"\"; echo \"Branch: $BRANCH\"; if [ -n \"$STATUS\" ]; then echo \"\"; echo \"Uncommitted changes:\"; echo \"$STATUS\"; else echo \"Working tree: clean\"; fi; }"
+          }
+        ]
+      }
+    ]
+  }
+}
