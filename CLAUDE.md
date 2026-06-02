@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A centralized source of shared **Flutter/iOS** development assets (architecture rules, iOS release
 workflow, App Store review checks, `docs/process` procedures) distributed to consuming Flutter apps.
 It stacks a Flutter/iOS-specific layer on top of the general-purpose
-[`shared-claude-code`](../shared-claude-code) repository. All consuming repositories — and
+[`shared-claude-code`](https://github.com/tatsushige-i/shared-claude-code) repository. All consuming repositories — and
 `shared-claude-code` — must live in the same parent directory as this one (sibling placement).
 
 **Distribution methods:**
