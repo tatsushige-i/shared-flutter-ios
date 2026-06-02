@@ -1,0 +1,1 @@
+../../../../shared-claude-code/rules/security.md
