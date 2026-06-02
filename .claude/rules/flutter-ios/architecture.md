@@ -1,0 +1,1 @@
+../../../rules/flutter-ios/architecture.md

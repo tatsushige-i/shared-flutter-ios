@@ -1,0 +1,1 @@
+../../../rules/flutter-ios/documentation.md

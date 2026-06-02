@@ -1,0 +1,44 @@
+# Flutter/iOS Profile
+
+このアプリ固有の値を集約するプロファイル。shared-flutter-ios から symlink 配布される共有
+docs / skills は固有値を埋め込まず `{{token}}` プレースホルダで参照しており、その実値を本
+ファイルで定義する。共有ファイルを読む人間 / Claude は、`{{token}}` を本ファイルの値に
+読み替えて解釈する。
+
+> このファイルは各アプリの `.claude/flutter-ios-profile.md` に置き、**アプリごとに編集する**
+> （共有リポジトリには配布されない、アプリ固有の成果物）。`bootstrap.sh` がテンプレートから
+> 初期コピーする。下記の `<...>` をアプリの実値に置き換えること。
+
+## Identifiers
+
+| token                  | 値                              | 用途 |
+| ---------------------- | ------------------------------- | ---- |
+| `app_name`             | `<例: MyApp>`                   | CFBundleDisplayName / 表示名 |
+| `bundle_id`            | `<例: jp.example.myapp>`        | Bundle ID（App Store 公開後は変更不可） |
+| `team_id`              | `<例: ABCDE12345>`              | Apple Developer Team ID（`DEVELOPMENT_TEAM`） |
+| `asc_app_id`           | `<App Store Connect のアプリ ID>` | App Store Connect app id |
+| `repo`                 | `<例: owner/myapp>`             | GitHub owner/repo |
+
+## Web / Domain（プライバシーポリシー・サポート配信を行う場合）
+
+| token                  | 値                                       | 用途 |
+| ---------------------- | ---------------------------------------- | ---- |
+| `dns_zone`             | `<例: example.com>`                      | Cloudflare DNS 管理ゾーン |
+| `site_domain`          | `<例: myapp.example.com>`                | Cloudflare Pages カスタムドメイン |
+| `privacy_policy_url`   | `<例: https://myapp.example.com/privacy-policy/>` | プライバシーポリシー URL |
+| `support_url`          | `<例: https://myapp.example.com/support/>`        | サポート URL |
+
+## Email（Cloudflare Email Routing を使う場合）
+
+| token                  | 値                                       | 用途 |
+| ---------------------- | ---------------------------------------- | ---- |
+| `support_email`        | `<例: myapp@example.com>`                | サポート/連絡先メール（転送元） |
+| `forward_email`        | `<例: you@gmail.com>`                    | Email Routing の転送先 |
+| `dkim_selector`        | `<例: cf2024-1>`                         | Cloudflare DKIM セレクタ（`<selector>._domainkey.<zone>`） |
+
+## 備考
+
+- 認証情報（証明書・API Key・パスワード等）は本ファイルに **書かない**。本ファイルは識別子の
+  対応表であり、シークレットの保管場所ではない。
+- Web/Domain・Email セクションは、プライバシーポリシー等の静的サイト配信を行わないアプリでは
+  空欄のままでよい（`cloudflare-pages-setup.md` を使わない場合）。

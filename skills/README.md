@@ -1,0 +1,10 @@
+# Skills
+
+Master skill definitions for Flutter/iOS app development, distributed to consuming apps via
+symlinks (see the repository [README](../README.md)).
+
+| Skill | Command | Description |
+|---|---|---|
+| `config-flutter-ios-sync` | `/config-flutter-ios-sync` | Detect missing symlinks and sync Flutter/iOS rules, skills, and `docs/process` under the app |
+| `release-ios-build` | `/release-ios-build <version>` | Bump version, build a signed IPA, and create a release PR after ASC upload |
+| `review-appstore-guidelines` | `/review-appstore-guidelines` | Fetch App Store Review Guidelines at runtime and cross-check the app's implementation |
