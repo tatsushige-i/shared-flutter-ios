@@ -115,4 +115,6 @@ echo
 echo "Next steps:"
 echo "  1. Edit .claude/flutter-ios-profile.md and fill in this app's values."
 echo "  2. Commit the new symlinks and profile."
-echo "  3. Run /config-flutter-ios-sync later to pull in any assets added to $SHARED_NAME."
+echo "  3. Run /release-roadmap-scaffold to create the release milestones + issues in this repo."
+echo "     (requires type/priority labels — run /config-github-sync first if missing)"
+echo "  4. Run /config-flutter-ios-sync later to pull in any assets added to $SHARED_NAME."
