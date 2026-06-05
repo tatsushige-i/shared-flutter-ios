@@ -105,4 +105,7 @@ gh release create "<target-tag>" \
 
 - 本スキルはタグ・ビルド・審査提出は扱わない。それらは [`release-ios-build`](../release-ios-build/SKILL.md)
   および各アプリの `docs/process/release-guide.md` を正本とする。
+- App Store 掲載文言（最新情報・概要・プロモーション）のドラフトは扱わない。それは
+  [`release-ios-build`](../release-ios-build/SKILL.md) の掲載文言ステップが担う（変更集合の分類は
+  本スキルの Step 2-3 を共有・相互参照する）。
 - リリースノートは日本語で書く（Issue/PR と同様、プロジェクトのドキュメント言語規約に従う）。
