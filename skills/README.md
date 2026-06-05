@@ -9,4 +9,5 @@ symlinks (see the repository [README](../README.md)).
 | `release-roadmap-scaffold` | `/release-roadmap-scaffold` | Scaffold the 3 release milestones and generic issue skeletons into the target repo (idempotent), from `docs/process/release-roadmap.md` |
 | `release-ios-build` | `/release-ios-build <version>` | Bump version, build a signed IPA, and create a release PR after ASC upload |
 | `release-notes-generate` | `/release-notes-generate [<tag>]` | Diff merged PRs since the previous release tag, draft Japanese release notes, and create the GitHub Release after approval |
+| `release-docs-sync` | `/release-docs-sync <milestone>` | Sync the consuming app's `docs/spec` and test specs to as-built from a milestone's closed issues / merged PRs, including the design→spec→archive lifecycle |
 | `review-appstore-guidelines` | `/review-appstore-guidelines` | Fetch App Store Review Guidelines at runtime and cross-check the app's implementation |
