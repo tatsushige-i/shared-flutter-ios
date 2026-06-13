@@ -16,6 +16,10 @@
 >
 > **スコープ**: ここに含めるのは新規アプリで共通して必要な定型作業のみ。アプリ固有の MVP 機能
 > Issue や QA バグは各アプリで別途起票する。
+>
+> **Backlog 運用**: Milestone は期限を持つ M1〜M3 のリリース工程のみに用いる。v2 以降に先送り
+> する項目は期限を持たないため Milestone に乗せず、`backlog` ラベル単独で管理する（Backlog 用
+> Milestone は作らない）。
 
 各 Issue 本文は以下の共通フォーマットで生成する（`documentation` / `chore` は Implementation
 Approach を省く）。
