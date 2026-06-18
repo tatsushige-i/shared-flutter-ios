@@ -1,6 +1,7 @@
 .PHONY: ci pre-push-setup
 
 ci:
+	fvm flutter pub get
 	fvm dart format --output=none --set-exit-if-changed .
 	fvm flutter analyze
 	fvm flutter test
