@@ -46,6 +46,10 @@ synced.
    - **Rules**: no symlink exists at `.claude/rules/flutter-ios/<name>.md`
    - **Skills**: no symlink exists at `.claude/skills/<name>`
    - **Docs**: no symlink exists at `docs/process/<name>.md`
+5. If a `templates/` directory exists in shared-flutter-ios, get the list of files under it.
+6. Detect missing template items:
+   - **Templates**: no file with the same name exists at the consuming app's root
+     (e.g., `templates/Makefile` → check for `Makefile` at the app root)
 
 ### Step 3: Present Differences and Confirm with User
 
@@ -68,6 +72,9 @@ synced.
 
    ### Docs (docs/process)
    - app-icon.md
+
+   ### Templates
+   - Makefile
 
    Would you like to sync these items? Let me know if you want to exclude any.
    ```
@@ -92,7 +99,7 @@ synced.
      - If it does not exist → create branch with `git checkout -b chore/sync-flutter-ios-rules`
      - If it exists → create branch with `git checkout -b chore/sync-flutter-ios-rules-YYYYMMDD` (current date)
 
-### Step 5: Create Symlinks
+### Step 5: Create Symlinks and Copy Templates
 
 1. Rule sync:
    - Create `.claude/rules/flutter-ios/` directory with `mkdir -p` if it does not exist
@@ -106,6 +113,10 @@ synced.
    - Get the prefix from the `readlink` result of existing docs symlinks and create new symlinks using the same pattern
    - Example: if an existing link is `../../shared-flutter-ios/docs/process/release-workflow.md`, create new ones as `../../shared-flutter-ios/docs/process/<name>.md`
 4. After creating each symlink, verify that the link target resolves correctly (`readlink -f`).
+5. Template copy:
+   - For each template file to sync, copy from `<shared-flutter-ios>/templates/<name>` to `./<name>` at the app root.
+   - If the target file already exists, skip it and show a note pointing to `docs/process/local-ci-gate.md` for manual merge guidance.
+   - Stage copied files with `git add <name>`.
 
 > Note: skill→docs internal links (`../../../docs/process/...`) resolve only in the app layout
 > (where `.claude/skills/<name>/` and `docs/process/` coexist). Always sync both skills **and**
@@ -161,6 +172,8 @@ Display sync results in the following format:
 - Synced skills: X
   - <skill name 1>
 - Synced docs: X
+  - <filename 1>
+- Synced templates: X
   - <filename 1>
 - Updated README: <list of updated files>
 

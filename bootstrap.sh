@@ -109,12 +109,31 @@ else
   echo "  copy   .claude/flutter-ios-profile.md (from template — fill in app-specific values)"
 fi
 
+# --- Templates (copy, not symlink) -------------------------------------------
+if [ -d "$SHARED_ROOT/templates" ]; then
+  echo "Templates:"
+  for f in "$SHARED_ROOT"/templates/*; do
+    [ -e "$f" ] || continue
+    name="$(basename "$f")"
+    if [ -e "$name" ]; then
+      echo "  skip   $name (already exists — see docs/process/local-ci-gate.md to merge manually)"
+      skipped=$((skipped + 1))
+    else
+      cp "$f" "$name"
+      echo "  copy   $name (from templates/)"
+      created=$((created + 1))
+    fi
+  done
+fi
+
 echo
-echo "Done. Created $created symlink(s), skipped $skipped existing item(s)."
+echo "Done. Created $created symlink(s)/file(s), skipped $skipped existing item(s)."
 echo
 echo "Next steps:"
 echo "  1. Edit .claude/flutter-ios-profile.md and fill in this app's values."
-echo "  2. Commit the new symlinks and profile."
-echo "  3. Run /release-roadmap-scaffold to create the release milestones + issues in this repo."
+echo "  2. Run 'make ci' to verify local CI checks pass."
+echo "  3. Run 'make pre-push-setup' (optional) to install a pre-push hook."
+echo "  4. Commit the new symlinks and profile."
+echo "  5. Run /release-roadmap-scaffold to create the release milestones + issues in this repo."
 echo "     (requires type/priority labels — run /config-github-sync first if missing)"
-echo "  4. Run /config-flutter-ios-sync later to pull in any assets added to $SHARED_NAME."
+echo "  6. Run /config-flutter-ios-sync later to pull in any assets added to $SHARED_NAME."
