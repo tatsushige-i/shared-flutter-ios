@@ -62,23 +62,36 @@ ios/Runner/Info.plist
 
 ### version (`X.Y.Z`) の bump
 
-詳細ルールは [`README.md` の「リリースタグ・バージョニング規約」](../../README.md#リリースタグバージョニング規約)
-に従う。pubspec の `X.Y.Z` 部分と Git タグ `vX.Y.Z` は**常に一致させる**こと。
+build name (`X.Y.Z`) は [semantic versioning](https://semver.org/lang/ja/) に従って上げる。
+
+| 区分      | 上げる条件                                       | 例                |
+| --------- | ------------------------------------------------ | ----------------- |
+| **MAJOR** | 後方互換を壊す大規模な変更・全面刷新             | `1.4.2` → `2.0.0` |
+| **MINOR** | 後方互換のある機能追加                           | `1.4.2` → `1.5.0` |
+| **PATCH** | バグ修正のみ（機能追加なし）                     | `1.4.2` → `1.4.3` |
+
+- pubspec の `X.Y.Z` 部分と Git タグ `vX.Y.Z+N` の `X.Y.Z` 部分は**常に一致させる**こと。
+- MINOR / MAJOR を上げる際は build number を `+1` にリセットしてよい（例: `1.4.2+5` → `1.5.0+1`）。
 
 ## リリース手順
 
-リリースビルドを作成するときは以下の順で行う。
+リリースのブランチフロー・タグ運用の正本は
+[`release-workflow.md`](./release-workflow.md)（`/release-ios-build` スキルを主経路とする）。
+バージョン番号の観点での要点は以下のとおり。
 
 1. `pubspec.yaml` の `version:` を bump
    - 例: `version: 0.1.0+1` → `version: 0.2.0+1`（マイナーリリース）
    - 例: `version: 0.2.0+1` → `version: 0.2.0+2`（同 version の再ビルド）
-2. 変更を commit
-3. `vX.Y.Z` 形式の annotated タグを push（手順は README 参照）
+2. bump コミットを PR 経由でリリース対象ブランチに反映（フローは `release-workflow.md` 参照）
+3. マージ後、`vX.Y.Z+N`（build number 込み）形式の annotated タグを push
 
    ```bash
-   git tag -a v0.2.0 -m "v0.2.0"
-   git push origin v0.2.0
+   git tag -a v0.2.0+1 -m "v0.2.0+1"
+   git push origin v0.2.0+1
    ```
+
+   - タグ名は `pubspec.yaml` の `version:` をそのまま反映する。ASC は同一 `X.Y.Z` でも
+     アップロードごとに build number (`+N`) を上げるため、`+N` まで含めてビルド単位で一意に追跡する。
 
 4. `Build (iOS)` ワークフロー（`.github/workflows/build.yml`）が自動起動する
 
