@@ -147,6 +147,24 @@ Approach を省く）。
     - [ ] 実装で要求する権限のみに usage description が記述されている
     - [ ] `ITSAppUsesNonExemptEncryption` が実装に合った値で宣言されている
 
+### Issue: 日本語ローカライズの宣言・適用
+- type: `chore`
+- priority: `priority: medium`
+- body:
+  - Overview: `{{app_name}}` が日本語対応アプリであることをバイナリで宣言し、App Store 製品
+    ページの「言語」が日本語表示になるようにする。
+  - Background: 製品ページの「言語」はストアのメタデータ言語ではなくアプリバイナリの宣言
+    （`CFBundleLocalizations` / `knownRegions` / `developmentRegion`）に由来する。未宣言だと
+    「言語: English」と表示される。Flutter 側の `flutter_localizations` 導入と `Locale('ja')`
+    固定を併せて適用する。
+  - References: `docs/process/app-localization.md`
+  - Acceptance Criteria:
+    - [ ] `Info.plist` の `CFBundleLocalizations` に `ja` が宣言されている
+    - [ ] Xcode プロジェクトの `knownRegions` に `ja` が含まれている
+    - [ ] `developmentRegion` が意図どおり設定されている
+    - [ ] `flutter_localizations` を導入し、`MaterialApp` に `Locale('ja')` を固定している
+    - [ ] App Store 製品ページの「言語」が日本語と表示される
+
 ### Issue: App Privacy 申告の整理
 - type: `documentation`
 - priority: `priority: medium`
