@@ -1,8 +1,9 @@
 # per-minor リリースの定型 Issue
 
-per-minor（`vX.Y.Z` 毎）の継続リリースで、milestone に載せる Issue が固まった後に「定型 Issue
-（docs 最新化 / ストア説明文最新化 / ストアスクショ撮り直し）を追加で作るべきか」を判断するための
-正本。
+per-minor（MINOR bump、`vX.Y.0` 形式の機能追加リリース）の継続リリースで、milestone に載せる
+Issue が固まった後に「定型 Issue（docs 最新化 / ストア説明文最新化 / ストアスクショ撮り直し）を
+追加で作るべきか」を判断するための正本。PATCH/hotfix リリース（`vX.Y.Z`→`vX.Y.Z+1` 等、機能追加を
+伴わないバグ修正のみのリリース）は対象外（`versioning.md` の MINOR/PATCH 定義を参照）。
 
 > **位置づけ**: [`release-roadmap.md`](./release-roadmap.md) は初回ローンチ用の
 > **3 Milestone を一度きりで scaffold する**ための正本（`release-roadmap-scaffold` skill が使用）。
