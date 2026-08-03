@@ -45,6 +45,7 @@ skills/                     # skill 定義（symlink 配布）
 └── review-appstore-guidelines/ # App Store Review Guidelines 照合
 docs/process/               # 開発・運用手順（symlink 配布）
 ├── release-roadmap.md      # リリース・ロードマップ（Milestone/Issue の正本）
+├── release-recurring-issues.md # per-minor 定型 Issue（docs/ストア説明文/スクショ）の判断基準
 ├── release-workflow.md     # Build & Archive 配信フロー（正本）
 ├── versioning.md           # バージョン番号運用
 ├── device-install.md       # 開発実機インストール
