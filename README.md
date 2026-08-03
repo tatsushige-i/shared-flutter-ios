@@ -41,11 +41,13 @@ skills/                     # skill 定義（symlink 配布）
 ├── README.md               # skills 索引
 ├── config-flutter-ios-sync/ # Flutter/iOS rules・skills・docs の差分同期
 ├── release-roadmap-scaffold/ # 正本 roadmap から 3 Milestone + Issue を一括起票
+├── release-milestone-create/ # per-minor milestone の冪等作成・Issue 割当・定型 Issue 提案
 ├── release-ios-build/      # バージョン bump → signed IPA → リリース PR
 └── review-appstore-guidelines/ # App Store Review Guidelines 照合
 docs/process/               # 開発・運用手順（symlink 配布）
 ├── release-roadmap.md      # リリース・ロードマップ（Milestone/Issue の正本）
 ├── release-recurring-issues.md # per-minor 定型 Issue（docs/ストア説明文/スクショ）の判断基準
+├── release-milestone-workflow.md # milestone 作成トリガー・命名規約・運用手順の正本
 ├── release-workflow.md     # Build & Archive 配信フロー（正本）
 ├── versioning.md           # バージョン番号運用
 ├── device-install.md       # 開発実機インストール
