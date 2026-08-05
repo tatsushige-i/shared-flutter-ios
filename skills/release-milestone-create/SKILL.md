@@ -8,8 +8,8 @@ argument-hint: "<version> <issue番号...>  (例: 'v1.17.0 586 93')"
 
 per-minor（`vX.Y.0`）リリースの milestone 作成〜コア Issue 割当〜定型 Issue 起票までを一貫して
 行う。運用手順（作成トリガー・命名規約・cut 判断・クローズ）の正本は
-[`release-milestone-workflow.md`](../../docs/process/release-milestone-workflow.md)、定型 Issue
-の要否判断基準の正本は [`release-recurring-issues.md`](../../docs/process/release-recurring-issues.md)。
+[`release-milestone-workflow.md`](../../../docs/process/release-milestone-workflow.md)、定型 Issue
+の要否判断基準の正本は [`release-recurring-issues.md`](../../../docs/process/release-recurring-issues.md)。
 本スキルはどちらも編集せず、手順として実行するのみ。
 
 本スキルは**ビルド / タグ / 審査提出 / docs 実更新 / リリースノート生成は扱わない**。それらは
@@ -21,8 +21,8 @@ per-minor（`vX.Y.0`）リリースの milestone 作成〜コア Issue 割当〜
 
 ### Step 1: 引数パース
 
-1. 引数として `<version>`（`vX.Y.Z` 形式）とコア Issue 番号のリストを受け取る。
-2. `<version>` が無い、または `vX.Y.Z` 形式でない場合は推測せず、ユーザーに確認する。
+1. 引数として `<version>`（per-minor の `vX.Y.0` 形式）とコア Issue 番号のリストを受け取る。
+2. `<version>` が無い、または `vX.Y.0` 形式でない場合は推測せず、ユーザーに確認する。
 3. Issue 番号が 1 件も無い場合も推測せず、ユーザーに確認する（候補選定自体は会話内で決定済みの
    前提とし、本スキルはそれを行わない）。
 
@@ -45,7 +45,7 @@ per-minor（`vX.Y.0`）リリースの milestone 作成〜コア Issue 割当〜
 
 ### Step 4: Milestone 作成閾値チェック
 
-[`release-milestone-workflow.md`](../../docs/process/release-milestone-workflow.md) の作成
+[`release-milestone-workflow.md`](../../../docs/process/release-milestone-workflow.md) の作成
 トリガー表に基づき、対象 Issue 数を評価する。
 
 - 3 件以上 → そのまま Step 5 へ進む。
@@ -57,7 +57,7 @@ per-minor（`vX.Y.0`）リリースの milestone 作成〜コア Issue 割当〜
 1. 既存 Milestone を取得する（open/closed 両方）:
 
    ```bash
-   gh api "repos/<owner>/<repo>/milestones?state=all" --jq '.[] | "\(.number)\t\(.title)"'
+   gh api --paginate "repos/<owner>/<repo>/milestones?state=all" --jq '.[] | "\(.number)\t\(.title)"'
    ```
 
 2. `<version>` と完全一致するタイトルが既に存在すれば、その `number` を使い**作成しない**
@@ -80,7 +80,7 @@ gh issue edit <番号> -R <owner>/<repo> --milestone "<version>"
 
 ### Step 7: 定型 Issue 提案
 
-1. [`release-recurring-issues.md`](../../docs/process/release-recurring-issues.md) の判断
+1. [`release-recurring-issues.md`](../../../docs/process/release-recurring-issues.md) の判断
    テーブルを読み込む。
 2. Step 6 で Milestone に割り当てた各 Issue のラベル・内容から、3 種
    （docs 最新化 / ストア説明文最新化 / スクショ撮り直し）を**独立に**判定する。
@@ -113,7 +113,7 @@ gh issue create -R <owner>/<repo> \
   --milestone "<version>"
 ```
 
-- タイトル雛形・参照リンクは [`release-recurring-issues.md`](../../docs/process/release-recurring-issues.md)
+- タイトル雛形・参照リンクは [`release-recurring-issues.md`](../../../docs/process/release-recurring-issues.md)
   の判断テーブルに従う。
 - 複数種を 1 本に統合する場合は、本文にどの観点（docs / ストア説明文 / スクショ）を含むかを
   明記する。
@@ -136,5 +136,5 @@ gh issue create -R <owner>/<repo> \
   決定済みの前提とする。
 - ビルド・タグ・審査提出・docs 実更新・リリースノート生成・Milestone クローズは本スキルの
   スコープ外。それぞれ既存スキル、または
-  [`release-milestone-workflow.md`](../../docs/process/release-milestone-workflow.md) の運用
+  [`release-milestone-workflow.md`](../../../docs/process/release-milestone-workflow.md) の運用
   手順に従う。

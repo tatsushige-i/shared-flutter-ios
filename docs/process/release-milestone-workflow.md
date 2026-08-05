@@ -17,7 +17,7 @@ Issue が固まってから公開後の Milestone クローズまでの**運用�
 
 | 次リリースに載せる Issue 数 | 運用 |
 | --- | --- |
-| 概ね 3 件以上 | `vX.Y.Z` の Milestone を作成し、対象 Issue を割り当てて進捗で「カット可能か」を判断する |
+| 概ね 3 件以上 | `vX.Y.0` の Milestone を作成し、対象 Issue を割り当てて進捗で「カット可能か」を判断する |
 | 1〜2 件 | Milestone は作らず、そのまま PR → 単独リリース（1 件のための Milestone は overhead） |
 
 ## Milestone とラベルの役割
@@ -33,7 +33,7 @@ Issue が固まってから公開後の Milestone クローズまでの**運用�
 
 ## 運用手順
 
-1. 次リリース候補が概ね 3 件以上固まったら `vX.Y.Z` Milestone を作成する。
+1. 次リリース候補が概ね 3 件以上固まったら `vX.Y.0` Milestone を作成する。
 2. 対象 Issue を Milestone に割り当てる。
 3. **リリース定型 Issue の要否を判断して起票する。** 割り当てた Issue のラベル・内容から
    何を作成すべきかは [`release-recurring-issues.md`](./release-recurring-issues.md) の判断
@@ -43,7 +43,7 @@ Issue が固まってから公開後の Milestone クローズまでの**運用�
    （shared 側にブランチ戦略の正本は無いため、対象アプリ側のドキュメントを参照すること）。
 5. リリース公開後、該当 Milestone を close する。
 
-実例（consuming app 側の Milestone）: bulklog [#22 (v1.17.0)](https://github.com/tatsushige-i/bulklog/milestone/22)
+実例（consuming app 側の Milestone）: bulklog #22 (v1.17.0)
 
 ## 判断者・タイミング
 
