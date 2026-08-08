@@ -12,3 +12,4 @@ symlinks (see the repository [README](../README.md)).
 | `release-notes-generate` | `/release-notes-generate [<tag>]` | Diff merged PRs since the previous release tag, draft Japanese release notes, and create the GitHub Release after approval |
 | `release-docs-sync` | `/release-docs-sync <milestone>` | Sync the consuming app's `docs/spec` and test specs to as-built from a milestone's closed issues / merged PRs, including the design→spec→archive lifecycle |
 | `review-appstore-guidelines` | `/review-appstore-guidelines` | Fetch App Store Review Guidelines at runtime and cross-check the app's implementation |
+| `tech-debt-audit-flutter` | `/tech-debt-audit-flutter` | Flutter / Dart プロジェクトの技術的負債を19カテゴリ並列調査し、優先度付きレポートを生成する |
