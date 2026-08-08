@@ -43,16 +43,7 @@ per-minor（`vX.Y.0`）リリースの milestone 作成〜コア Issue 割当〜
 3. 欠けているものがあれば、どのラベルを付けるかユーザーに確認し
    `gh issue edit <番号> -R <owner>/<repo> --add-label "<label>"` で補う。
 
-### Step 4: Milestone 作成閾値チェック
-
-[`release-milestone-workflow.md`](../../../docs/process/release-milestone-workflow.md) の作成
-トリガー表に基づき、対象 Issue 数を評価する。
-
-- 3 件以上 → そのまま Step 5 へ進む。
-- 1〜2 件 → 「Issue 数が少ないため Milestone を作らず直接 PR の方が適切ではないか」と警告を
-  提示し、続行するか確認する。ユーザーが続行を選べば Step 5 へ進む（強制停止はしない）。
-
-### Step 5: Milestone の冪等作成
+### Step 4: Milestone の冪等作成
 
 1. 既存 Milestone を取得する（open/closed 両方）:
 
@@ -68,7 +59,7 @@ per-minor（`vX.Y.0`）リリースの milestone 作成〜コア Issue 割当〜
    gh api -X POST "repos/<owner>/<repo>/milestones" -f title="<version>"
    ```
 
-### Step 6: 対象 Issue を Milestone に割当
+### Step 5: 対象 Issue を Milestone に割当
 
 各コア Issue について:
 
@@ -78,11 +69,11 @@ gh issue edit <番号> -R <owner>/<repo> --milestone "<version>"
 
 既に同じ Milestone が割り当て済みの Issue はそのままでよい（`gh issue edit` は冪等）。
 
-### Step 7: 定型 Issue 提案
+### Step 6: 定型 Issue 提案
 
 1. [`release-recurring-issues.md`](../../../docs/process/release-recurring-issues.md) の判断
    テーブルを読み込む。
-2. Step 6 で Milestone に割り当てた各 Issue のラベル・内容から、3 種
+2. Step 5 で Milestone に割り当てた各 Issue のラベル・内容から、3 種
    （docs 最新化 / ストア説明文最新化 / スクショ撮り直し）を**独立に**判定する。
 3. 判定結果を以下の形式で提示し、ユーザーの承認を得る:
 
@@ -96,12 +87,12 @@ gh issue edit <番号> -R <owner>/<repo> --milestone "<version>"
    該当する定型 Issue は 1 本にまとめますか、個別に作成しますか？
    ```
 
-4. すべて「不要」であれば、その旨を伝えて Step 9 へ進む（Step 8 はスキップ）。
+4. すべて「不要」であれば、その旨を伝えて Step 8 へ進む（Step 7 はスキップ）。
 
-**Wait for user approval before proceeding to Step 8.** ユーザーが判定や統合可否を変更した場合は
+**Wait for user approval before proceeding to Step 7.** ユーザーが判定や統合可否を変更した場合は
 その指示に従う。
 
-### Step 8: 定型 Issue の作成
+### Step 7: 定型 Issue の作成
 
 承認された内容で、対象それぞれ（または統合した 1 本）を作成する:
 
@@ -118,7 +109,7 @@ gh issue create -R <owner>/<repo> \
 - 複数種を 1 本に統合する場合は、本文にどの観点（docs / ストア説明文 / スクショ）を含むかを
   明記する。
 
-### Step 9: 結果サマリ
+### Step 8: 結果サマリ
 
 ```text
 ## Milestone 作成完了（<owner>/<repo>）
@@ -130,8 +121,9 @@ gh issue create -R <owner>/<repo> \
 
 ## Notes
 
-- 本スキルは GitHub への書き込み（Milestone 作成・Issue 編集・Issue 作成）を行う。Step 4（閾値）・
-  Step 7〜8（定型 Issue）は必ずユーザー確認を経てから実行する。
+- 本スキルは GitHub への書き込み（Milestone 作成・Issue 編集・Issue 作成）を行う。Milestone
+  作成・割当（Step 4〜5）は確認なしで実行し、定型 Issue の提案・作成（Step 6〜7）は必ず
+  ユーザー確認を経てから実行する。
 - コア Issue の候補選定（何を次リリースに載せるか）自体は本スキルの責務ではない。会話内で
   決定済みの前提とする。
 - ビルド・タグ・審査提出・docs 実更新・リリースノート生成・Milestone クローズは本スキルの

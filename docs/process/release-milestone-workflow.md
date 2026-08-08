@@ -15,10 +15,8 @@ Issue が固まってから公開後の Milestone クローズまでの**運用�
 
 ## Milestone 作成トリガー
 
-| 次リリースに載せる Issue 数 | 運用 |
-| --- | --- |
-| 概ね 3 件以上 | `vX.Y.0` の Milestone を作成し、対象 Issue を割り当てて進捗で「カット可能か」を判断する |
-| 1〜2 件 | Milestone は作らず、そのまま PR → 単独リリース（1 件のための Milestone は overhead） |
+次リリースに載せるバージョンを決めたら、載せる Issue 数によらず常に `vX.Y.0` の Milestone を
+作成する。
 
 ## Milestone とラベルの役割
 
@@ -33,7 +31,7 @@ Issue が固まってから公開後の Milestone クローズまでの**運用�
 
 ## 運用手順
 
-1. 次リリース候補が概ね 3 件以上固まったら `vX.Y.0` Milestone を作成する。
+1. 次リリースに載せるバージョンが決まったら `vX.Y.0` Milestone を作成する。
 2. 対象 Issue を Milestone に割り当てる。
 3. **リリース定型 Issue の要否を判断して起票する。** 割り当てた Issue のラベル・内容から
    何を作成すべきかは [`release-recurring-issues.md`](./release-recurring-issues.md) の判断
@@ -49,6 +47,5 @@ Issue が固まってから公開後の Milestone クローズまでの**運用�
 
 - 次リリース候補の Issue が固まった時点（milestone 作成の直前・直後）で、対象 Issue のラベル・
   内容から上記手順を実行する。
-- hook では「milestone を切る」イベントも件数判断も扱えないため、milestone 設定の会話の中で
-  自発的に判断・提案する運用とする（`release-milestone-create` skill が本手順に沿って対話的に
-  実行する）。
+- hook では「milestone を切る」イベントを扱えないため、milestone 設定の会話の中で自発的に
+  判断・提案する運用とする（`release-milestone-create` skill が本手順に沿って対話的に実行する）。
