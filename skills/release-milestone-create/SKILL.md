@@ -121,8 +121,9 @@ gh issue create -R <owner>/<repo> \
 
 ## Notes
 
-- 本スキルは GitHub への書き込み（Milestone 作成・Issue 編集・Issue 作成）を行う。Step 6〜7
-  （定型 Issue）は必ずユーザー確認を経てから実行する。
+- 本スキルは GitHub への書き込み（Milestone 作成・Issue 編集・Issue 作成）を行う。Milestone
+  作成・割当（Step 4〜5）は確認なしで実行し、定型 Issue の提案・作成（Step 6〜7）は必ず
+  ユーザー確認を経てから実行する。
 - コア Issue の候補選定（何を次リリースに載せるか）自体は本スキルの責務ではない。会話内で
   決定済みの前提とする。
 - ビルド・タグ・審査提出・docs 実更新・リリースノート生成・Milestone クローズは本スキルの
