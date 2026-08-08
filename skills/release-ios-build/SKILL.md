@@ -32,7 +32,7 @@ argument-hint: "<version>  (例: 1.0.0+2)"
 
 - 引数として目標バージョンを `X.Y.Z+N` 形式（例: `1.0.0+2`）で受け取る。必須。
 - 形式が不正、または引数が無い場合は現在の `pubspec.yaml` の `version:` を表示し、正しい形式での指定を促して**停止**する（推測で bump しない）。
-- 現在値と目標値を比較し、`+N`（build number）が現在値以下の場合は警告する（同一 build number は ASC に拒否されるため）。
+- marketing version (`X.Y.Z`) が現在値と同一のまま、`+N`（build number）が現在値以下の場合のみ警告する（ASC の一意性制約は marketing version + build number の組み合わせ単位のため。marketing version が変わっていれば build number の大小は問わない）。
 
 ### Step 2: 実行ブランチの検証とブランチ準備
 
