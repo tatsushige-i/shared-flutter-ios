@@ -46,12 +46,45 @@ argument-hint: "<version>  (例: 1.0.0+2)"
    - **`main` 等のデフォルトブランチ上**（`release/*` 運用を未導入のアプリ）: リリース対象が `main` に
      統合済みである前提で、`chore/bump-version-<version をハイフン化>`（例: `chore/bump-version-1.0.0-2`）
      ブランチを切る。
-   - **`develop` 等の統合ブランチ、その他の作業ブランチ上**: ビルド・bump に**進まず停止**し、
-     リリースカット手順を案内する。統合ブランチ上で bump・ビルド・審査提出を行うと「リリースカットが
-     後追い」になり、ブランチ戦略（カット先行）と不整合を起こすため（bulklog v1.5.0 で発生した逆順）。
-     - 案内例: `release/X.Y.Z` ブランチをカット（例: `git switch -c release/1.0.0`）してから本スキルを
-       再実行する。`release/*` 運用を導入していないアプリでは、リリース対象を `main` に統合し `main`
-       上で再実行する。
+   - **`develop` ブランチ上**: `git ls-remote --heads origin 'release/*'` でアプリの運用構成を判定する。
+     - **`release/*` が 1 つ以上存在する**（Git Flow 標準運用アプリで、`release/*` を未カットのまま
+       実行したケース）: ビルド・bump に**進まず停止**し、`release/X.Y.Z` ブランチのカット（例:
+       `git switch -c release/1.0.0`）を案内してから本スキルを再実行するよう促す。統合ブランチ上で
+       bump・ビルド・審査提出を行うと「リリースカットが後追い」になり、ブランチ戦略（カット先行）と
+       不整合を起こすため（bulklog v1.5.0 で発生した逆順）。
+     - **`release/*` が存在しない**（`release/*` 運用未導入の develop+main 構成）: ビルド・bump には
+       進まず、下記「develop+main 構成の cut PR 自動作成」を実行する。
+   - **`develop` / `main` / `release/*` のいずれでもないその他の作業ブランチ上**: ビルド・bump に
+     **進まず停止**し、リリース対象を `main`（または `develop`）に統合してから本スキルを再実行するよう
+     案内する。
+
+#### develop+main 構成の cut PR 自動作成
+
+`release/*` 運用を導入していない develop+main 構成アプリで `develop` 上から実行された場合、
+develop → main のリリースカット PR 作成をここで自動化する（[`release-workflow.md`](../../../docs/process/release-workflow.md)
+の「実行ブランチとブランチフロー」の develop+main アプリ手順 1. に対応）。
+
+1. **直前リリースタグの確定**: `git tag --sort=-v:refname | head -1` で確認する。曖昧な場合は
+   ユーザーに確認する。
+2. **変更集合の抽出**: `<直前タグ>..HEAD`（`develop` の現在の HEAD）のマージ済み PR を
+   `git log --merges <prev>..HEAD --oneline` で収集し、PR 番号ごとに `gh pr view <NNN> --json title,labels`
+   でタイトルを補う。抽出手順は [`release-notes-generate`](../release-notes-generate/SKILL.md) の
+   Step 2 と同じロジックを参照する（本スキルで再実装しない）。掲載文言用の Step 6 と異なり、
+   非ユーザー向け変更を除外するフィルタは行わない（cut PR の Summary は内部向け変更も含めた
+   網羅的な一覧でよい）。
+3. **ドラフト生成**:
+   - PR タイトル: `chore: v<marketing version> を main へリリース反映`（`<marketing version>` は
+     Step 1 で確定済みの引数から build number `+N` を除いた `X.Y.Z`）。
+   - PR 本文: `git-pr-create` の Summary / Test plan テンプレートを踏襲する。
+     - Summary: 収集した変更点を「日本語の簡潔な説明 (#PR番号)」形式の箇条書きで列挙する。
+     - Test plan: この時点では bump・ビルドは未実施のため、`develop` 上の CI（`analyze-test` /
+       `build-ios` 等）が pass 済みであることの確認項目のみを記載する。
+4. **提示 → 承認**: ドラフト全文をユーザーに提示し、承認を得るまで PR を作成しない。
+5. **PR 作成**: 承認後、`gh pr create --base main --head develop --title "<title>" --body "..."` で
+   作成する（本文はヒアドキュメントで整形を保持する）。
+6. **停止**: PR 作成後、**マージ完了報告を待って停止**する（Step 3 の bump には進まない）。
+   マージ報告があるまで待機し、以下を案内する: 「PR #NNN のマージ後、`main` に切り替えて本スキルを
+   再実行してください（`main` 上では Step 2 の既存分岐でそのまま bump に進みます）」。
 
 ### Step 3: バージョン bump
 
