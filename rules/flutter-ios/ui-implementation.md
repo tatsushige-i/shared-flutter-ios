@@ -1,6 +1,6 @@
 # UI Implementation Rules
 
-Flutter の UI 実装で踏みやすい落とし穴をまとめる。`lib/features/**/presentation/` の
+Flutter の UI 実装で踏みやすい落とし穴をまとめる。`lib/features/<feature>/presentation/` の
 ウィジェット実装はすべて本ルールに従うこと。
 
 ## テキスト入力とウィジェット再構築
@@ -35,7 +35,7 @@ FocusManager.instance.primaryFocus?.unfocus();
 ### 検証上の注意（重要）
 
 **ウィジェットテストでは再現しない。** `flutter_test` の `TestTextInput` はテスト用の
-フェイクであり、実機／シミュレータのエンジンが行う値の push back を再現しない。そのため
+フェイクであり、実機／シミュレータのエンジンが行う値の push-back を再現しない。そのため
 このバグを再現するテストを書いても、CI 上は緑のまま通過する。
 
 - ユニットテスト・ウィジェットテストの green は、この種の不具合の不在を保証しない
