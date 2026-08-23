@@ -7,7 +7,7 @@ symlinks (see the repository [README](../README.md)).
 |---|---|---|
 | `config-flutter-ios-sync` | `/config-flutter-ios-sync` | Detect missing symlinks and sync Flutter/iOS rules, skills, and `docs/process` under the app |
 | `release-roadmap-scaffold` | `/release-roadmap-scaffold` | Scaffold the 3 release milestones and generic issue skeletons into the target repo (idempotent), from `docs/process/release-roadmap.md` |
-| `release-milestone-create` | `/release-milestone-create <version> <issue番号...>` | Create/reuse a per-minor milestone, assign core issues, and propose recurring issues per `release-recurring-issues.md` |
+| `release-milestone-create` | `/release-milestone-create <version> <issue番号...>` | Create/reuse a per-minor milestone, assign core issues, propose recurring issues per `release-recurring-issues.md`, and propose/number the serial-parallel work order across all assigned issues |
 | `release-ios-build` | `/release-ios-build <version>` | Bump version, build a signed IPA, and create a release PR after ASC upload |
 | `release-notes-generate` | `/release-notes-generate [<tag>]` | Diff merged PRs since the previous release tag, draft Japanese release notes, and create the GitHub Release after approval |
 | `release-docs-sync` | `/release-docs-sync <milestone>` | Sync the consuming app's `docs/spec` and test specs to as-built from a milestone's closed issues / merged PRs, including the design→spec→archive lifecycle |

@@ -1,13 +1,13 @@
 ---
 name: release-milestone-create
-description: 対象バージョンとコア Issue 番号から、milestone の冪等作成・Issue 割当・release-recurring-issues.md の判断基準に基づく定型 Issue 提案までを一貫して行う。
+description: 対象バージョンとコア Issue 番号から、milestone の冪等作成・Issue 割当・release-recurring-issues.md の判断基準に基づく定型 Issue 提案・着手順の提示とIssueタイトルへの採番までを一貫して行う。
 argument-hint: "<version> <issue番号...>  (例: 'v1.17.0 586 93')"
 ---
 
 # Release Milestone Create Skill
 
-per-minor（`vX.Y.0`）リリースの milestone 作成〜コア Issue 割当〜定型 Issue 起票までを一貫して
-行う。運用手順（作成トリガー・命名規約・cut 判断・クローズ）の正本は
+per-minor（`vX.Y.0`）リリースの milestone 作成〜コア Issue 割当〜定型 Issue 起票〜着手順の提示・
+採番までを一貫して行う。運用手順（作成トリガー・命名規約・cut 判断・クローズ）の正本は
 [`release-milestone-workflow.md`](../../../docs/process/release-milestone-workflow.md)、定型 Issue
 の要否判断基準の正本は [`release-recurring-issues.md`](../../../docs/process/release-recurring-issues.md)。
 本スキルはどちらも編集せず、手順として実行するのみ。
@@ -109,7 +109,54 @@ gh issue create -R <owner>/<repo> \
 - 複数種を 1 本に統合する場合は、本文にどの観点（docs / ストア説明文 / スクショ）を含むかを
   明記する。
 
-### Step 8: 結果サマリ
+### Step 8: 着手順の提示と採番
+
+1. milestone に割り当てた全 Issue（Step 5 のコア Issue + Step 7 で作成した定型 Issue）を対象に、
+   直列/並列の着手順案を生成する。
+
+   **生成基準:**
+
+   - コア Issue 同士: 各 Issue の本文・ラベルから変更ファイル領域を推定する（`feature:` /
+     `docs:` の言及、具体的なパス・ファイル名など）。領域が重なる Issue は直列、重ならない
+     Issue は並列候補とする
+   - 定型 Issue（docs 最新化／ストア説明文最新化／スクショ撮り直し）は、常にコア Issue 群の
+     マージ後に着手する依存関係として扱う（`release-recurring-issues.md` の性質上、コア Issue
+     の実装内容を前提にするため）
+   - 定型 Issue 同士は、相互に依存関係がなければ並列候補とする
+   - あくまで機械的な**提案**であり、最終判断はユーザーが行う
+
+   **採番形式:** 直列ステップを整数、同一ステップ内の並列枝を英字サフィックスで表す
+   （例: `[1]` `[2a]` `[2b]` `[3]`）。
+
+2. 以下の形式で提案しユーザーの承認を得る:
+
+   ```text
+   ## 着手順案（milestone: <version>）
+
+   - [1] #586 <タイトル>
+   - [2a] #588 <タイトル>（並列）
+   - [2b] #590 <タイトル>（並列）
+   - [3] #591 <タイトル>（[2a][2b] マージ後）
+
+   判断根拠:
+   - <Issue間の領域重複・依存関係の要約>
+
+   この順序でよろしいですか？修正があれば教えてください。
+   ```
+
+**Wait for user approval before proceeding.** ユーザーが順序を修正した場合はその指示に従う。
+
+3. 承認後、各 Issue のタイトルに採番プレフィックスを付与する:
+
+   ```bash
+   gh issue edit <番号> -R <owner>/<repo> --title "[<採番>] <元のタイトル>"
+   ```
+
+   冪等性のため、既存タイトルが `^\[\S+\]\s` にマッチする場合は既存の採番プレフィックスを
+   取り除いてから新しいプレフィックスを付与する（再実行時にプレフィックスが積み重ならない
+   ようにする）。
+
+### Step 9: 結果サマリ
 
 ```text
 ## Milestone 作成完了（<owner>/<repo>）
@@ -117,13 +164,14 @@ gh issue create -R <owner>/<repo> \
 - Milestone: <version>（新規作成 / 既存を使用）
 - 割り当てたコア Issue: <番号一覧>
 - 作成した定型 Issue: <番号・タイトル一覧 / なし>
+- 着手順: [1] #586 → [2a]#588 / [2b]#590（並列） → [3] #591
 ```
 
 ## Notes
 
 - 本スキルは GitHub への書き込み（Milestone 作成・Issue 編集・Issue 作成）を行う。Milestone
-  作成・割当（Step 4〜5）は確認なしで実行し、定型 Issue の提案・作成（Step 6〜7）は必ず
-  ユーザー確認を経てから実行する。
+  作成・割当（Step 4〜5）は確認なしで実行し、定型 Issue の提案・作成（Step 6〜7）および
+  着手順の提案・採番（Step 8）は必ずユーザー確認を経てから実行する。
 - コア Issue の候補選定（何を次リリースに載せるか）自体は本スキルの責務ではない。会話内で
   決定済みの前提とする。
 - ビルド・タグ・審査提出・docs 実更新・リリースノート生成・Milestone クローズは本スキルの
