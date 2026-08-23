@@ -36,10 +36,13 @@ Issue が固まってから公開後の Milestone クローズまでの**運用�
 3. **リリース定型 Issue の要否を判断して起票する。** 割り当てた Issue のラベル・内容から
    何を作成すべきかは [`release-recurring-issues.md`](./release-recurring-issues.md) の判断
    テーブルに従う（該当するものだけを作成する）。
-4. 進捗（open/closed）を見て**リリースをスケジュールできる**と判断したら、release ブランチを
+4. milestone に割り当てた全 Issue（コア Issue + 定型 Issue）について、変更ファイル領域の重なり・
+   依存関係（定型 Issue はコア Issue 群のマージ後、など）をもとに直列/並列の着手順案を提示し、
+   承認を得た上で各 Issue タイトルに着手順を採番する（`[1]` `[2a]` `[2b]` `[3]` 形式）。
+5. 進捗（open/closed）を見て**リリースをスケジュールできる**と判断したら、release ブランチを
    切る。ブランチの切り出し元・命名・タイミングは対象アプリのブランチ戦略ドキュメントに従う
    （shared 側にブランチ戦略の正本は無いため、対象アプリ側のドキュメントを参照すること）。
-5. リリース公開後、該当 Milestone を close する。
+6. リリース公開後、該当 Milestone を close する。
 
 実例（consuming app 側の Milestone）: bulklog #22 (v1.17.0)
 
